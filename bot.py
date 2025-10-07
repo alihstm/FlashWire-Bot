@@ -171,4 +171,22 @@ if __name__ == "__main__":
     app.job_queue.run_repeating(check_for_updates, interval=1800, first=10)
 
     print("🤖 FlashWire bot is running...")
-    app.run_polling()
+
+    # detect if running on Heroku
+    HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME")
+
+    if HEROKU_APP_NAME:
+        # ✅ Run in webhook mode (for Heroku)
+        PORT = int(os.environ.get("PORT", 8443))
+        app.run_webhook(
+            listen="0.0.0.0",
+            port=PORT,
+            url_path=TOKEN,
+            webhook_url=f"https://{HEROKU_APP_NAME}.herokuapp.com/{TOKEN}"
+        )
+        print(f"🚀 Running on Heroku Webhook ({HEROKU_APP_NAME})...")
+    else:
+        # ✅ Run locally with polling
+        app.run_polling()
+        print("💻 Running locally with polling...")
+

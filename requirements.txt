@@ -1,5 +1,5 @@
-python-telegram-bot==20.4
-requests
-beautifulsoup4
-nest_asyncio
-lxml
+python-telegram-bot[job-queue]>=21.0
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+nest_asyncio>=1.5.6
